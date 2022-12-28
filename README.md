@@ -1,4 +1,4 @@
-# MinecraftServerTool
+# MinecraftTogether
 
 A comprehensive Minecraft server management tool.
 
