@@ -7,6 +7,10 @@ import tkinter as tk
 from tkinter import filedialog
 from time import sleep as wait
 
+# SQLite
+import sqlite3 as sql
+databaseCon = sql.connect("serverdata.db")
+
 # Colorama
 import colorama
 colorama.init()
@@ -21,12 +25,22 @@ def checkForGit():
     else:
         isGitInstalled = True
 
-def startServer(file_path):
-    system("cls && cd \"" + file_path + "\" &&" + "\"" + file_path + "/start.bat\"")
-
-def addServer():
+def init_func():
     system("cls")
-    print(colorama.Fore.CYAN + "ATTENTION | Select the server folder!" + colorama.Fore.WHITE)
+    print("b0nk's MinecraftServerTool\n------------------------------------------")
+
+    checkForGit()
+
+    print("Select an option:\n1) Add Server To List\n2) Start Server From List\n3) Delete Server From List")
+    choice = input()
+    check_choice(choice)
+
+def startServer(filePath): # Needs an update, originally intended to just be with the directory and not the start file
+    system("cls && cd \"" + filePath + "\" &&" + "\"" + filePath + "/start.bat\"")
+
+def add_server():
+    system("cls")
+    print(colorama.Fore.CYAN + "ATTENTION | Select the file that starts the server!" + colorama.Fore.WHITE)
     wait(1)
     print("Liftoff in 3..")
     wait(1)
@@ -37,22 +51,37 @@ def addServer():
 
     root = tk.Tk()
     root.withdraw()
-    file_path = filedialog.askdirectory()
+    filePath = filedialog.askopenfilename()
 
-    pass # Find b0nkus_db and add the code here or rewrite it (please no)
+    with databaseCon:
+        dbCursor = databaseCon.cursor()
+        dbCursor.execute("CREATE TABLE IF NOT EXISTS serverpaths(startfile TEXT)")
+        dbCursor.execute(f'INSERT INTO serverpaths VALUES ("{filePath}")') # Single quotes because of filePath double quotes
+        dbCursor.execute("SELECT * FROM serverpaths")
+        tableContents = dbCursor.fetchall()
+        print("The server " + str.split(tableContents[-1][0], "/")[-2] + " has been added to the list.")
+    
+    wait(3)
+    init_func()
 
-def snsServer():
-    print("Select a server to start:") # Add some code after this that reads the servers and yktr
+def sns_server():
+    system("cls")
+    print("Select a server to start:\n") # Add some code after this that reads the servers and yktr
+
+    with databaseCon:
+        dbCursor = databaseCon.cursor()
+        dbCursor.execute("SELECT * FROM serverpaths")
+        servers = dbCursor.fetchall()
+        for server in servers:
+            print(str.split(server[0], "/")[-2])
+
+    input()
+
+def check_choice(choice):
+    if choice == "1":
+        add_server()
+    elif choice == "2":
+        sns_server()
 
 # Init
-print("b0nk's MinecraftServerTool\n------------------------------------------")
-
-checkForGit()
-
-print("Select an option:\n1) Add Server To MST\n2) Sync & Start Server")
-choice = input()
-
-if choice == "1":
-    addServer()
-elif choice == "2":
-    snsServer()
+init_func()
