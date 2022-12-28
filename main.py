@@ -17,7 +17,7 @@ isGitInstalled = False
 # Functions
 def checkForGit():
     if shutil.which("git") == None:
-        print(colorama.Fore.YELLOW + "WARNING | Git is not installed on this machine,\n          so auto-updating a server from a remote\n          repository will not be available." + colorama.Fore.WHITE)
+        print(colorama.Fore.YELLOW + "WARNING | Git is not installed on this machine,\n          so auto-updating a server from a remote\n          repository will not be available.\n" + colorama.Fore.WHITE)
     else:
         isGitInstalled = True
 
@@ -49,7 +49,7 @@ print("b0nk's MinecraftServerTool\n------------------------------------------")
 
 checkForGit()
 
-print("\nSelect an option:\n1) Add Server To MST\n2) Sync & Start Server")
+print("Select an option:\n1) Add Server To MST\n2) Sync & Start Server")
 choice = input()
 
 if choice == "1":
