@@ -14,3 +14,6 @@ Easy Server Setup - *PLANNED*
 
 Graphical Interface - *POSSIBILITY*
 - Instead of having the plain terminal interface, I could possibly create a nicer looking graphical interface that will be more user friendly and nice to use.
+
+## Disclaimer
+Windows is the targeted operating system for this program, but you could most likely get it to work on Mac or Linux through Wine. Although it wouldn't be super hard to add support natively, I am more focused on making MinecraftTogether as a whole instead of adding more compatibility. If you want to contribute to the code and fix this issue, figure out how to completely eliminate every system() call and also how to turn it into an AppImage and whatever Mac uses. Thanks!
