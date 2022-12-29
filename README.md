@@ -3,7 +3,7 @@
 A comprehensive Minecraft server management tool.
 
 ## Features
-Easy Server Start - *IN DEV*
+Easy Server Start
 - Select start a server, select the server, and your done.
 
 Syncing to Remote Repositories - *IN DEV*
