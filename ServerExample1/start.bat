@@ -1,1 +1,0 @@
-java -Xmx2G -jar paper-1.19.3-364.jar nogui

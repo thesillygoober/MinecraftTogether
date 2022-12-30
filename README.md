@@ -6,6 +6,9 @@ A comprehensive Minecraft server management tool.
 Easy Server Start
 - Select start a server, select the server, and your done.
 
+Support for Tunneling Software - *IN DEV*
+- Allows you to instantly start tunneling software while using easy server start if you can't port forward. (Examples are ngrok and playit.gg)
+
 Syncing to Remote Repositories - *IN DEV*
 - This will allow you to have multiple devices be able to run your server without data loss. For example, if you have a laptop and a desktop, you can decide to run it on either if you don't feel like leaving the other on for an extended period of time.
 
