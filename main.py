@@ -19,10 +19,10 @@ dbCursor = databaseCon.cursor()
 import colorama
 colorama.init()
 
-# Variables
-isGitInstalled = False
-
 # Functions
+def color_print(color, text):
+    print(color + text + colorama.Fore.WHITE)
+
 def color_input(color):
     returnInput = input(color)
     print(colorama.Fore.WHITE)
@@ -30,9 +30,7 @@ def color_input(color):
 
 def checkForGit():
     if shutil.which("git") == None:
-        print(colorama.Fore.YELLOW + "WARNING | Git is not installed on this machine,\n          so auto-updating a server from a remote\n          repository will not be available.\n" + colorama.Fore.WHITE)
-    else:
-        isGitInstalled = True
+        color_print(colorama.Fore.YELLOW, "WARNING | Git is not installed on this machine,\n          so auto-updating a server from a remote\n          repository will not be available.\n")
 
 def init_func():
     system("cls && title MinecraftTogether - Menu")
@@ -42,18 +40,21 @@ def init_func():
     choice = color_input(colorama.Fore.GREEN)
     check_choice(choice)
 
-def cut_fptd(filePath): # Cut File Path To Directory
+def cut_fptd(filePath, numToStop): # Cut File Path To Directory
     returnString = ""
     splitString = str.split(filePath, "/")
+    stopFunc = False
 
     for subStr in splitString:
-        if not subStr == splitString[-1]:
+        if subStr == splitString[numToStop*-1]:
+            stopFunc = True
+        if not stopFunc:
             returnString += subStr + "/"
     
     return returnString
 
 def start_server(filePath): # Needs an update, originally intended to just be with the directory and not the start file
-    directory = cut_fptd(filePath)
+    directory = cut_fptd(filePath, 1)
 
     try:
         dbCursor.execute("SELECT * FROM tunneler")
@@ -71,7 +72,7 @@ def start_server(filePath): # Needs an update, originally intended to just be wi
 
 def add_server():
     system("cls && title MinecraftTogether - Adding Server")
-    print(colorama.Fore.CYAN + "ATTENTION | Select the file that starts the server!" + colorama.Fore.WHITE)
+    color_print(colorama.Fore.CYAN, "ATTENTION | Select the file that starts the server!")
     wait(1)
     print("Liftoff in 3..")
     wait(1)
@@ -85,7 +86,8 @@ def add_server():
     filePath = filedialog.askopenfilename()
 
     repoToGo = ""
-    if isGitInstalled:
+    if shutil.which("git") != None:
+        color_print(colorama.Fore.CYAN, "\nATTENTION | Server folder needs to have the same name as the repository.")
         print("Add a repository to clone from (leave empty for none): ")
         repoToGo = color_input(colorama.Fore.GREEN)
         repoToGo = repoToGo.replace(" ", "")
@@ -131,7 +133,21 @@ def sns_server():
                 wait(1)
                 sns_server()
             else:
-                start_server(servers[int(serverChoice)-1][0])
+                if shutil.which("git") != None and servers[int(serverChoice)-1][1] != "":
+                    try:
+                        system(f"cd {cut_fptd(servers[int(serverChoice)-1][0], 2)} && git clone {servers[int(serverChoice)-1][1]}")
+                        start_server(servers[int(serverChoice)-1][0])
+                    except:
+                        print(f"Would you like to proceed without cloning from a remote repository? We couldn't pull from {servers[int(serverChoice)-1][1]}.\n\n1) Yes\n2) No")
+                        choice = color_input(colorama.Fore.GREEN)
+                        if choice == "1":
+                            start_server(servers[int(serverChoice)-1][0])
+                        elif choice == "2":
+                            print("Press enter to go back to the menu.")
+                            input()
+                        else:
+                            print("That was not an option, press enter to go back to menu.")
+                            input()
     except:
         system("cls")
         print("No servers found. Press enter to go back to menu.")
@@ -177,7 +193,7 @@ def cor_tunneler():
 
     if choice == "1":
         system("cls && title MinecraftTogether - Changing Tunneler")
-        print(colorama.Fore.CYAN + "ATTENTION | Select the tunneler .exe!" + colorama.Fore.WHITE)
+        color_print(colorama.Fore.CYAN, "ATTENTION | Select the tunneler .exe!")
         wait(1)
         print("Liftoff in 3..")
         wait(1)

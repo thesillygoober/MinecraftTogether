@@ -7,10 +7,10 @@ Want to see current development progress? Check the trello at https://trello.com
 Easy Server Start
 - Select start a server, select the server, and your done.
 
-Support for Tunneling Software - *IN DEV*
+Support for Tunneling Software
 - Allows you to instantly start tunneling software while using easy server start if you can't port forward. (Built with ngrok and playit.gg in mind)
 
-Syncing to Remote Repositories - *IN DEV*
+Syncing to Remote Repositories
 - This will allow you to have version control on the cloud for server backups, easy transfer between devices, etc.
 
 Easy Server Setup - *PLANNED*
