@@ -1,6 +1,7 @@
 # MinecraftTogether
 
 A comprehensive Minecraft server management tool.
+
 Want to see current development progress? Check the trello at https://trello.com/b/yVbWYFxt/minecrafttogether
 
 ## Features
