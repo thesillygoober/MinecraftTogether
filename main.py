@@ -1,7 +1,10 @@
 # MinecraftServerTool Main File
 
+# This code may not be optimized very well and there most likely is strange variable naming.
+# Go forth at your own risk. (eyeball torture)
+
 # Imports
-from os import system
+from os import system, startfile as sf
 import shutil
 import tkinter as tk
 from tkinter import filedialog
@@ -34,10 +37,8 @@ def checkForGit():
 def init_func():
     system("cls && title MinecraftTogether - Menu")
     print("MinecraftTogether Client\n------------------------------------------")
-
     checkForGit()
-
-    print("Select an option:\n1) Add Server To List\n2) Start Server From List\n3) Delete Server From List\n4) Exit Client")
+    print("Select an option:\n1) Add Server To List\n2) Start Server From List\n3) Delete Server From List\n4) Change or Remove Tunneler\n5) Exit")
     choice = color_input(colorama.Fore.GREEN)
     check_choice(choice)
 
@@ -53,6 +54,19 @@ def cut_fptd(filePath): # Cut File Path To Directory
 
 def start_server(filePath): # Needs an update, originally intended to just be with the directory and not the start file
     directory = cut_fptd(filePath)
+
+    try:
+        dbCursor.execute("SELECT * FROM tunneler")
+        tunnelerPath = dbCursor.fetchall()
+        print(tunnelerPath)
+        testVar = tunnelerPath[0][0] # To test if it is there
+        if not str.split(tunnelerPath[0][0], "/")[-1] == "ngrok.exe":
+            sf(tunnelerPath[0][0])
+        else:
+            sf("ngrokstarter.py")
+    except:
+        print("Proceeding with no tunneler.")
+    
     system(f"cls && title MinecraftTogether - Running Server && cd \"{directory}\" && \"{filePath}\"")
 
 def add_server():
@@ -86,7 +100,7 @@ def add_server():
     with databaseCon:
         dbCursor.execute("CREATE TABLE IF NOT EXISTS serverpaths(startfile TEXT, repo TEXT)")
         dbCursor.execute(f'DELETE FROM serverpaths WHERE startfile = "{filePath}"')
-        dbCursor.execute(f'INSERT INTO serverpaths VALUES ("{filePath}", "{repoToGo}")') # Single quotes because of filePath double quotes
+        dbCursor.execute(f'INSERT INTO serverpaths VALUES ("{filePath}", "{repoToGo}")')
         dbCursor.execute("SELECT * FROM serverpaths")
         tableContents = dbCursor.fetchall()
 
@@ -97,6 +111,7 @@ def add_server():
 
 def sns_server():
     system("cls && title MinecraftTogether - Starting Server")
+
     try:
         print("Select a server to start:\n")
 
@@ -154,6 +169,58 @@ def del_server():
         print("No servers found. Press enter to go back to menu.")
         input()
         init_func()
+
+def cor_tunneler():
+    system("cls && title MinecraftTogether - Tunneler Options")
+    print("Would you like to change or remove tunneler?\n\n1) Change Tunneler\n2) Remove Tunneler")
+    choice = color_input(colorama.Fore.GREEN)
+
+    if choice == "1":
+        system("cls && title MinecraftTogether - Changing Tunneler")
+        print(colorama.Fore.CYAN + "ATTENTION | Select the tunneler .exe!" + colorama.Fore.WHITE)
+        wait(1)
+        print("Liftoff in 3..")
+        wait(1)
+        print("Liftoff in 2..")
+        wait(1)
+        print("Liftoff in 1..")
+        wait(1)
+
+        root = tk.Tk()
+        root.withdraw()
+        filePath = filedialog.askopenfilename()
+
+        with databaseCon:
+            dbCursor.execute("CREATE TABLE IF NOT EXISTS tunneler(startfile TEXT, delvalue INTEGER)")
+            dbCursor.execute('DELETE FROM tunneler WHERE delvalue = 1')
+            dbCursor.execute(f'INSERT INTO tunneler VALUES ("{filePath}", 1)')
+            dbCursor.execute("SELECT * FROM tunneler")
+            tableContents = dbCursor.fetchall()
+            
+            print("The tunneler " + str.split(tableContents[0][0], "/")[-1] + " has been selected.")
+            wait(2)
+        
+        init_func()
+    elif choice == "2":
+        system("cls && title MinecraftTogether - Deleting Tunneler")
+        tableContents = dbCursor.fetchall()
+
+        try:
+            with databaseCon:
+                dbCursor.execute("DELETE FROM tunneler WHERE delvalue = 1")
+
+            print("Successfully removed tunneler from server startup.")
+            wait(1)
+        except:
+            print("Tunneler hasn't been added yet. Try again.")
+            wait(1)
+            cor_tunneler()
+
+        init_func()
+    else:
+        print("That is not an option. Try again.\n")
+        wait(1)
+        cor_tunneler()
     
 def check_choice(choice):
     if choice == "1":
@@ -163,6 +230,8 @@ def check_choice(choice):
     elif choice == "3":
         del_server()
     elif choice == "4":
+        cor_tunneler()
+    elif choice == "5":
         exit()
     else:
         print("\nThat is not an option. Try again.\n")
