@@ -19,6 +19,9 @@ dbCursor = databaseCon.cursor()
 import colorama
 colorama.init()
 
+# Variables
+version = "v1.0.0" # Change for update
+
 # Functions
 def color_print(color, text):
     print(color + text + colorama.Fore.WHITE)
@@ -34,11 +37,27 @@ def checkForGit():
 
 def init_func():
     system("cls && title MinecraftTogether - Menu")
-    print("MinecraftTogether Client\n------------------------------------------")
+    print(f"MinecraftTogether Client {version}\n------------------------------------------")
     checkForGit()
-    print("Select an option:\n1) Add Server To List\n2) Start Server From List\n3) Delete Server From List\n4) Change or Remove Tunneler\n5) Exit")
+    print("Select an option:\n1) Manage Servers\n2) Change or Remove Tunneler\n3) Exit")
     choice = color_input(colorama.Fore.GREEN)
     check_choice(choice)
+
+def mng_server():
+    system("cls && title MinecraftTogether - Managing Servers")
+    print("Server Management Options\n\n1) Add Server from List\n2) Start Server from List\n3) Delete Server from List")
+    choice = color_input(colorama.Fore.GREEN)
+
+    if choice == "1":
+        add_server()
+    elif choice == "2":
+        sns_server()
+    elif choice == "3":
+        del_server()
+    else:
+        print("That is not an option. Try again.")
+        wait(1)
+        mng_server()
 
 def cut_fptd(filePath, numToStop): # Cut File Path To Directory
     returnString = ""
@@ -148,6 +167,8 @@ def sns_server():
                         else:
                             print("That was not an option, press enter to go back to menu.")
                             input()
+                else:
+                    start_server(servers[int(serverChoice)-1][0])
     except:
         system("cls")
         print("No servers found. Press enter to go back to menu.")
@@ -240,14 +261,10 @@ def cor_tunneler():
     
 def check_choice(choice):
     if choice == "1":
-        add_server()
+        mng_server()
     elif choice == "2":
-        sns_server()
-    elif choice == "3":
-        del_server()
-    elif choice == "4":
         cor_tunneler()
-    elif choice == "5":
+    elif choice == "3":
         exit()
     else:
         print("\nThat is not an option. Try again.\n")

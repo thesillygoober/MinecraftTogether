@@ -21,4 +21,4 @@ Graphical Interface - *POSSIBILITY*
 - Instead of having the plain terminal interface, I could possibly create a nicer looking graphical interface that will be more user friendly. This seems very far out though if possible.
 
 ## Disclaimer
-Windows is the targeted operating system for this program, but you could most likely get it to work on Mac or Linux through Wine. Support is coming soon though, the calls that make it windows-only are pretty non-performant, so it will most likely be ready before v1.
+Windows is the targeted operating system for this program, but you could most likely get it to work on Mac or Linux through Wine. If you want native support, create an issue in the Issues tab on this repository and let me know!
