@@ -4,11 +4,13 @@
 # Go forth at your own risk. (eyeball torture)
 
 # Imports
+import os
 from os import system, startfile as sf
 import shutil
 import tkinter as tk
 from tkinter import filedialog
 from time import sleep as wait
+import sys
 
 # SQLite
 import sqlite3 as sql
@@ -20,22 +22,36 @@ import colorama
 colorama.init()
 
 # Variables
-version = "v1.0.0" # Change for update
+version = "v1.0.1" # Change for update
 
 # Functions
+def resource_path(relative_path): # PyInstaller Support
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 def color_print(color, text):
+    """ Print out text with a certain color """
     print(color + text + colorama.Fore.WHITE)
 
 def color_input(color):
+    """ Input function that colors the text """
     returnInput = input(color)
     print(colorama.Fore.WHITE)
     return returnInput
 
 def checkForGit():
+    """ Checks if git is installed to path """
     if shutil.which("git") == None:
         color_print(colorama.Fore.YELLOW, "WARNING | Git is not installed on this machine,\n          so auto-updating a server from a remote\n          repository will not be available.\n")
 
 def init_func():
+    """ Initializes the MinecraftTogether Client """
     system("cls && title MinecraftTogether - Menu")
     print(f"MinecraftTogether Client {version}\n------------------------------------------")
     checkForGit()
@@ -44,6 +60,7 @@ def init_func():
     check_choice(choice)
 
 def mng_server():
+    """ Starts the server manager """
     system("cls && title MinecraftTogether - Managing Servers")
     print("Server Management Options\n\n1) Add Server from List\n2) Start Server from List\n3) Delete Server from List")
     choice = color_input(colorama.Fore.GREEN)
@@ -60,6 +77,7 @@ def mng_server():
         mng_server()
 
 def cut_fptd(filePath, numToStop): # Cut File Path To Directory
+    """ Cuts the directory down to a specific index """
     returnString = ""
     splitString = str.split(filePath, "/")
     stopFunc = False
@@ -73,6 +91,7 @@ def cut_fptd(filePath, numToStop): # Cut File Path To Directory
     return returnString
 
 def start_server(filePath): # Needs an update, originally intended to just be with the directory and not the start file
+    """ Start a server from a file path """
     directory = cut_fptd(filePath, 1)
 
     try:
@@ -83,13 +102,14 @@ def start_server(filePath): # Needs an update, originally intended to just be wi
         if not str.split(tunnelerPath[0][0], "/")[-1] == "ngrok.exe":
             sf(tunnelerPath[0][0])
         else:
-            sf("ngrokstarter.py")
+            sf(resource_path("ngrokstarter.py"))
     except:
         print("Proceeding with no tunneler.")
     
     system(f"cls && title MinecraftTogether - Running Server && cd \"{directory}\" && \"{filePath}\"")
 
 def add_server():
+    """ Add a server to the serverdata database """
     system("cls && title MinecraftTogether - Adding Server")
     color_print(colorama.Fore.CYAN, "ATTENTION | Select the file that starts the server!")
     wait(1)
@@ -131,6 +151,7 @@ def add_server():
     init_func()
 
 def sns_server():
+    """ Sync server if applicable and use start server function """
     system("cls && title MinecraftTogether - Starting Server")
 
     try:
@@ -178,6 +199,7 @@ def sns_server():
     init_func()
 
 def del_server():
+    """ Delete server from the database """
     system("cls && title MinecraftTogether - Deleting Server")
     print("Select a server to delete:\n")
 
@@ -208,6 +230,7 @@ def del_server():
         init_func()
 
 def cor_tunneler():
+    """ Change or remove a tunneler """
     system("cls && title MinecraftTogether - Tunneler Options")
     print("Would you like to change or remove tunneler?\n\n1) Change Tunneler\n2) Remove Tunneler")
     choice = color_input(colorama.Fore.GREEN)
@@ -260,6 +283,7 @@ def cor_tunneler():
         cor_tunneler()
     
 def check_choice(choice):
+    """ Init function choice function, should probably be implemented into init_func """
     if choice == "1":
         mng_server()
     elif choice == "2":
