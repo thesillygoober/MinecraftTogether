@@ -289,7 +289,7 @@ def check_choice(choice):
     elif choice == "2":
         cor_tunneler()
     elif choice == "3":
-        exit()
+        sys.exit()
     else:
         print("\nThat is not an option. Try again.\n")
         wait(1)
