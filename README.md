@@ -11,9 +11,6 @@ Easy Server Start
 Support for Tunneling Software
 - Allows you to instantly start tunneling software while using easy server start if you can't port forward. (Built with ngrok and playit.gg in mind)
 
-Syncing to Remote Repositories
-- This will allow you to have version control on the cloud for server backups, easy transfer between devices, etc.
-
 Easy Server Setup - *PLANNED*
 - This will allow you to make any server easily by selecting Minecraft version, forge fabric or vanilla, and the versions of those that you want.
 
