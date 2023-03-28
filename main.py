@@ -22,7 +22,7 @@ import colorama
 colorama.init()
 
 # Variables
-version = "v1.0.1" # Change for update
+version = "v1.0.2" # Change for update
 
 # Functions
 def resource_path(relative_path): # PyInstaller Support
@@ -45,16 +45,10 @@ def color_input(color):
     print(colorama.Fore.WHITE)
     return returnInput
 
-def checkForGit():
-    """ Checks if git is installed to path """
-    if shutil.which("git") == None:
-        color_print(colorama.Fore.YELLOW, "WARNING | Git is not installed on this machine,\n          so auto-updating a server from a remote\n          repository will not be available.\n")
-
 def init_func():
     """ Initializes the MinecraftTogether Client """
     system("cls && title MinecraftTogether - Menu")
     print(f"MinecraftTogether Client {version}\n------------------------------------------")
-    checkForGit()
     print("Select an option:\n1) Manage Servers\n2) Change or Remove Tunneler\n3) Exit")
     choice = color_input(colorama.Fore.GREEN)
     check_choice(choice)
@@ -124,24 +118,24 @@ def add_server():
     root.withdraw()
     filePath = filedialog.askopenfilename()
 
-    repoToGo = ""
-    if shutil.which("git") != None:
-        color_print(colorama.Fore.CYAN, "\nATTENTION | Server folder needs to have the same name as the repository.")
-        print("Add a repository to clone from (leave empty for none): ")
-        repoToGo = color_input(colorama.Fore.GREEN)
-        repoToGo = repoToGo.replace(" ", "")
+    #repoToGo = ""
+    #if shutil.which("git") != None:
+        #color_print(colorama.Fore.CYAN, "\nATTENTION | Server folder needs to have the same name as the repository.")
+        #print("Add a repository to clone from (leave empty for none): ")
+        #repoToGo = color_input(colorama.Fore.GREEN)
+        #repoToGo = repoToGo.replace(" ", "")
     
-    if repoToGo == "":
-        print("Proceeding with no remote repository.")
-    else:
-        print("Proceeding with " + repoToGo + ", if it errors whilst starting, come back here and fix this value.")
+    #if repoToGo == "":
+        #print("Proceeding with no remote repository.")
+    #else:
+        #print("Proceeding with " + repoToGo + ", if it errors whilst starting, come back here and fix this value.")
 
     wait(2)
 
     with databaseCon:
-        dbCursor.execute("CREATE TABLE IF NOT EXISTS serverpaths(startfile TEXT, repo TEXT)")
+        dbCursor.execute("CREATE TABLE IF NOT EXISTS serverpaths(startfile TEXT)")
         dbCursor.execute(f'DELETE FROM serverpaths WHERE startfile = "{filePath}"')
-        dbCursor.execute(f'INSERT INTO serverpaths VALUES ("{filePath}", "{repoToGo}")')
+        dbCursor.execute(f'INSERT INTO serverpaths VALUES ("{filePath}")')
         dbCursor.execute("SELECT * FROM serverpaths")
         tableContents = dbCursor.fetchall()
 
@@ -150,7 +144,7 @@ def add_server():
     wait(1)
     init_func()
 
-def sns_server():
+def sns_server(): # Originally used with syncing to repos, might want to adapt this code to start_server later
     """ Sync server if applicable and use start server function """
     system("cls && title MinecraftTogether - Starting Server")
 
@@ -173,23 +167,7 @@ def sns_server():
                 wait(1)
                 sns_server()
             else:
-                if shutil.which("git") != None and servers[int(serverChoice)-1][1] != "":
-                    try:
-                        system(f"cd {cut_fptd(servers[int(serverChoice)-1][0], 2)} && git clone {servers[int(serverChoice)-1][1]}")
-                        start_server(servers[int(serverChoice)-1][0])
-                    except:
-                        print(f"Would you like to proceed without cloning from a remote repository? We couldn't pull from {servers[int(serverChoice)-1][1]}.\n\n1) Yes\n2) No")
-                        choice = color_input(colorama.Fore.GREEN)
-                        if choice == "1":
-                            start_server(servers[int(serverChoice)-1][0])
-                        elif choice == "2":
-                            print("Press enter to go back to the menu.")
-                            input()
-                        else:
-                            print("That was not an option, press enter to go back to menu.")
-                            input()
-                else:
-                    start_server(servers[int(serverChoice)-1][0])
+                start_server(servers[int(serverChoice)-1][0])
     except:
         system("cls")
         print("No servers found. Press enter to go back to menu.")
@@ -249,15 +227,19 @@ def cor_tunneler():
         root = tk.Tk()
         root.withdraw()
         filePath = filedialog.askopenfilename()
-
-        with databaseCon:
-            dbCursor.execute("CREATE TABLE IF NOT EXISTS tunneler(startfile TEXT, delvalue INTEGER)")
-            dbCursor.execute('DELETE FROM tunneler WHERE delvalue = 1')
-            dbCursor.execute(f'INSERT INTO tunneler VALUES ("{filePath}", 1)')
-            dbCursor.execute("SELECT * FROM tunneler")
-            tableContents = dbCursor.fetchall()
+        
+        if filePath != "":
+            with databaseCon:
+                dbCursor.execute("CREATE TABLE IF NOT EXISTS tunneler(startfile TEXT, delvalue INTEGER)")
+                dbCursor.execute('DELETE FROM tunneler WHERE delvalue = 1')
+                dbCursor.execute(f'INSERT INTO tunneler VALUES ("{filePath}", 1)')
+                dbCursor.execute("SELECT * FROM tunneler")
+                tableContents = dbCursor.fetchall()
             
-            print("The tunneler " + str.split(tableContents[0][0], "/")[-1] + " has been selected.")
+                print("The tunneler " + str.split(tableContents[0][0], "/")[-1] + " has been selected.")
+                wait(2)
+        else:
+            print("\nNo tunneler was selected, proceeding to main screen.\n")
             wait(2)
         
         init_func()
