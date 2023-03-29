@@ -14,8 +14,8 @@ Support for Tunneling Software
 Easy Server Setup - *PLANNED*
 - This will allow you to make any server easily by selecting Minecraft version, forge fabric or vanilla, and the versions of those that you want.
 
-Graphical Interface - *POSSIBILITY*
-- Instead of having the plain terminal interface, I could possibly create a nicer looking graphical interface that will be more user friendly. This seems very far out though if possible.
+Graphical Interface - *PLANNED*
+- Instead of having the plain terminal interface, we could have a nicer looking graphical interface that will be more user friendly.
 
 ## Disclaimers
 - Windows is the targeted operating system for this program, but you could most likely get it to work on Mac or Linux through Wine. If you want native support, create an issue in the Issues tab on this repository and let me know!
