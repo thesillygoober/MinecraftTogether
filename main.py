@@ -1,12 +1,8 @@
 # MinecraftServerTool Main File
 
-# This code may not be optimized very well and there most likely is strange variable naming.
-# Go forth at your own risk. (eyeball torture)
-
 # Imports
 import os
 from os import system, startfile as sf
-import shutil
 import tkinter as tk
 from tkinter import filedialog
 from time import sleep as wait
@@ -25,7 +21,7 @@ colorama.init()
 version = "v1.0.2" # Change for update
 
 # Functions
-def resource_path(relative_path): # PyInstaller Support
+def resource_path(relative_path): # PyInstaller Support (PUT THIS IN GUI SCRIPT WHEN ITS TIME)
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
@@ -117,18 +113,6 @@ def add_server():
     root = tk.Tk()
     root.withdraw()
     filePath = filedialog.askopenfilename()
-
-    #repoToGo = ""
-    #if shutil.which("git") != None:
-        #color_print(colorama.Fore.CYAN, "\nATTENTION | Server folder needs to have the same name as the repository.")
-        #print("Add a repository to clone from (leave empty for none): ")
-        #repoToGo = color_input(colorama.Fore.GREEN)
-        #repoToGo = repoToGo.replace(" ", "")
-    
-    #if repoToGo == "":
-        #print("Proceeding with no remote repository.")
-    #else:
-        #print("Proceeding with " + repoToGo + ", if it errors whilst starting, come back here and fix this value.")
 
     wait(2)
 
