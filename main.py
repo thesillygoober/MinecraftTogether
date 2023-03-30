@@ -18,7 +18,7 @@ import colorama
 colorama.init()
 
 # Variables
-version = "v1.0.2" # Change for update
+version = "v1.1.0" # Change for update
 
 # Functions
 def resource_path(relative_path): # PyInstaller Support (PUT THIS IN GUI SCRIPT WHEN ITS TIME)

@@ -11,6 +11,9 @@ Easy Server Start
 Support for Tunneling Software
 - Allows you to instantly start tunneling software while using easy server start if you can't port forward. (Built with ngrok and playit.gg in mind)
 
+Discord Bot Integration - *PLANNED*
+- Have a bot update a server or specific channel about the status of your server or possibly even have commands to check on it or affect it remotely.
+
 Easy Server Setup - *PLANNED*
 - This will allow you to make any server easily by selecting Minecraft version, forge fabric or vanilla, and the versions of those that you want.
 
