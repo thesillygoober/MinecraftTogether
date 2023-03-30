@@ -1,4 +1,4 @@
-# MinecraftServerTool Main File
+# MinecraftTogether Text File
 
 # Imports
 import os
