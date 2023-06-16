@@ -30,14 +30,7 @@ current_os = platform.system()
 
 # Functions
 def cut_directory(directory, cut):
-    cutResult = ""
-
-    if current_os == "Linux" or current_os == "Darwin":
-        cutResult = str.split(directory, "/")[cut] # Linux/Unix
-    else:
-        cutResult = str.split(directory, "\\")[cut] # Windows
-    
-    return cutResult
+    return str.split(directory, "/")[cut]
 
 def error_message(msg):
     error_window = ctk.CTk()
