@@ -11,7 +11,6 @@ import platform
 import os
 from os import system as callc # call command
 import subprocess
-import webbrowser
 
 # Setup
 ctk.set_appearance_mode("system")  # Modes: system (default), light, dark
@@ -45,17 +44,15 @@ class directory_handler:
         """ Cut directory down to remove the file """
         toPutTogether = directory.split("/")
         toPutTogether.pop(-1)
-
+        
         result = ""
-
-        if current_os == "Windows":
-            result = "C:/"
-        else:
+        
+        if current_os == "Linux" or current_os == "Darwin":
             #toPutTogether.remove('')
             result = "/"
 
         for i in toPutTogether:
-            if i != toPutTogether[-1]:
+            if toPutTogether.index(i) != toPutTogether[-1]:
                 result += i + "/"
             else:
                 result += i
@@ -142,7 +139,8 @@ def remove_server():
 def start_server():
     if current_os == "Windows":
         subprocess.Popen(['start', 'cmd', '/c', serverData[selectedServer.get()]], cwd=dh.cut_to_directory(serverData[selectedServer.get()]), shell=True)
-        subprocess.Popen(['start', 'cmd', '/c', dh.load_tunneler()], cwd=dh.cut_to_directory(dh.load_tunneler()), shell=True)
+        if dh.load_tunneler() != "":
+            subprocess.Popen(['start', 'cmd', '/c', dh.load_tunneler()], cwd=dh.cut_to_directory(dh.load_tunneler()), shell=True)
     elif current_os == "Linux":
         subprocess.Popen(['xterm', '-e', 'bash', '-c', serverData[selectedServer.get()]], cwd=dh.cut_to_directory(serverData[selectedServer.get()]))
         subprocess.Popen(['xterm', '-e', 'bash', '-c', dh.load_tunneler()], cwd=dh.cut_to_directory(dh.load_tunneler()))
