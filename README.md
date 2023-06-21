@@ -1,22 +1,19 @@
-# MinecraftTogether
+# MinecraftTogether V2
 
-A comprehensive Minecraft server management tool.
-
-Want to see current development progress? Check the trello at https://trello.com/b/yVbWYFxt/minecrafttogether
+A useful tool for managing and setting up self-hosted servers for Minecraft with ease.
 
 ## Features
-Easy Server Start
-- Select start a server, select the server, and your done.
 
-Support for Tunneling Software
-- Allows you to instantly start tunneling software while using easy server start if you can't port forward. (Built with ngrok and playit.gg in mind)
+- Server Manager: Add or remove servers from the list and start servers easily; optionally alongside a tunneler.
 
-Easy Server Setup - *PLANNED*
-- This will allow you to make any server easily by selecting Minecraft version, forge fabric or vanilla, and the versions of those that you want.
+- Server Setup Wizard: Simplifying server setup. Automatically set up a server for any version of Paper, Forge, or Fabric.
 
-Graphical Interface - *PLANNED*
-- Instead of having the plain terminal interface, we could have a nicer looking graphical interface that will be more user friendly.
+## Read This
 
-## Disclaimers
-- Linux support is not available yet, but I am working on it. All I have to do is change how some things work and then figure out how to compile it all together.
-- Bedrock servers are currently not supported by any tunnelers that don't work by just opening them like Ngrok. Ngrok is specifically set to open 25565 currently, so use PlayIt.gg if you need a tunneler and you play on Bedrock.
+This is my first big project, so if this program helped you I would very much appreciate you starring the repository to get it more attention. If you have any problems, submit an issue in the issue tab on the GitHub repo. If you have a suggestion, I would love to hear it in the discussions tab in the Suggestions & Ideas section. Thanks for reading, and I hope this helps your Minecraft servers.
+
+**If you get confused on how to use it, check the GitHub wiki for instructions.**
+
+### Disclaimers
+
+If you are on linux, you need xterm or a terminal emulator that can be used by passing the command xterm to start servers.
