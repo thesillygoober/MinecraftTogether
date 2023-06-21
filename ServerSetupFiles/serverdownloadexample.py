@@ -4,7 +4,7 @@ import requests
 import time
 from requests.exceptions import ConnectionError
 
-def download_minecraft_server(output_path): # Currently doesn't work with main file, make it work
+def download_minecraft_server(output_path): # downloader example, will modify and move to serverdownloader.py
     url = "https://piston-data.mojang.com/v1/objects/84194a2f286ef7c14ed7ce0090dba59902951553/server.jar"
 
     try:
