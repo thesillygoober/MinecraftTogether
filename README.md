@@ -10,7 +10,7 @@ A useful tool for managing and setting up self-hosted servers for Minecraft with
 
 ## Read This
 
-This is my first big project, so if this program helped you I would very much appreciate you starring the repository to get it more attention. If you have any problems, submit an issue in the issue tab on the GitHub repo. If you have a suggestion, I would love to hear it in the discussions tab in the Suggestions & Ideas section. Thanks for reading, and I hope this helps your Minecraft servers.
+This is my first big project, so if this program helped you I would very much appreciate you starring the repository to get it more attention. If you have any problems, first check the wiki tab on this repo. If that doesn't solve your problem, submit an issue in the issue tab on the GitHub repo. If you have a suggestion, I would love to hear it in the discussions tab in the Suggestions & Ideas section. Thanks for reading, and I hope this helps your Minecraft servers.
 
 **If you get confused on how to use it, check the GitHub wiki for instructions.**
 
