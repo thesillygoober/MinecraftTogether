@@ -16,7 +16,7 @@ app = ctk.CTk()
 app.title("MinecraftTogether")
 app.resizable(False, False)
 app.geometry("400x240")
-try:
+try: # this shit dont work aaaaaaaaaaaa
     appIcon = tk.PhotoImage(file="MinecraftTogetherIcon.png")
     app.iconphoto(False, appIcon)
 except:
@@ -30,8 +30,12 @@ tunnelString = tk.StringVar(app)
 
 serverData = {}
 
-DEFAULT_SVDIR = "svdir.txt" # Server List Persistence Filename
-DEFAULT_TDIR = "tunnel.txt" # Tunneler Persistence Filename
+with open("svdir.txt", 'a'): # Creates save file if not already there
+    pass
+with open("tunnel.txt", 'a'): # Creates tunneler file if not already there
+    pass
+svdir = open("svdir.txt", "r+") # Server List Persistence File
+tdir = open("tunnel.txt", "r+") # Tunneler Persistence File
 
 current_os = platform.system()
 
@@ -61,30 +65,26 @@ class directory_handler:
         return result
     
     def save_directories(self, directories: dict):
-        with open(DEFAULT_SVDIR, 'w') as file:
-            for name, path in directories.items():
-                file.write(f"{name},{path}\n")
+        for name, path in directories.items():
+            svdir.write(f"{name},{path}\n")
     
     def load_directories(self):
         directories = {}
 
-        with open(DEFAULT_SVDIR, 'r') as file:
-            for line in file:
-                name, path = line.strip().split(',')
-                directories[name] = path
+        for line in svdir:
+            name, path = line.strip().split(',')
+            directories[name] = path
 
         return directories
 
     def save_tunneler(self, tunneler: str):
-        with open(DEFAULT_TDIR, 'w') as file:
-            file.write(tunneler)
+        tdir.write(tunneler)
     
     def load_tunneler(self):
         tempTunneler = ""
-
-        with open(DEFAULT_TDIR, 'r') as file:
-            for line in file:
-                tempTunneler = line
+        
+        for line in tdir:
+            tempTunneler = line
         
         return tempTunneler
 
@@ -167,10 +167,6 @@ def choose_tunneler():
         tunnelString.set("Add Tunneler")
 
 # Main
-with open(DEFAULT_SVDIR, 'a'): # Creates save file if not already there
-    pass
-with open(DEFAULT_TDIR, 'a'): # Creates tunneler file if not already there
-    pass
 serverData = dh.load_directories()
 tunneler = dh.load_tunneler()
 tunnelString.set(("Add Tunneler" if tunneler == "" else "Remove Tunneler"))
@@ -198,3 +194,5 @@ version_label.place(relx=0.925, rely=0.95, anchor=tk.CENTER)
 
 # End
 app.mainloop()
+svdir.close()
+tdir.close()
