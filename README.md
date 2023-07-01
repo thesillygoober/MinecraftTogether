@@ -6,7 +6,7 @@ A useful tool for managing and setting up self-hosted servers for Minecraft with
 
 - Server Manager: Add or remove servers from the list and start servers easily; optionally alongside a tunneler.
 
-- Server Setup Wizard (IN-DEV): Simplifying server setup. Automatically set up a server for any version of Paper, Forge, or Fabric.
+- Server Setup Wizard: Simplifying server setup. Automatically set up a server for any version of Paper, Forge, or Fabric.
 
 ## Read This
 

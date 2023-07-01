@@ -1,16 +1,12 @@
 #! /usr/bin/python
 
-# Main File
-# Used for UI & Server management and to start up other parts of the program like the setup wizard
-
 # Imports
 import tkinter as tk
 import customtkinter as ctk
 from customtkinter import filedialog
 import platform
-import os
-from os import system as callc # call command
 import subprocess
+from serversetupwizard import server_setup_wizard
 
 # Setup
 ctk.set_appearance_mode("system")  # Modes: system (default), light, dark
@@ -20,6 +16,11 @@ app = ctk.CTk()
 app.title("MinecraftTogether")
 app.resizable(False, False)
 app.geometry("400x240")
+try:
+    appIcon = tk.PhotoImage(file="MinecraftTogetherIcon.png")
+    app.iconphoto(False, appIcon)
+except:
+    print("icon no workey :(")
 
 # Variables
 selectedServer = tk.StringVar(app)
@@ -189,7 +190,10 @@ remove_server_button.place(relx=0.2, rely=0.4, anchor=tk.CENTER)
 tunneler_button = ctk.CTkButton(master=app, textvariable=tunnelString, command=choose_tunneler)
 tunneler_button.place(relx=0.2, rely=0.9, anchor=tk.CENTER)
 
-version_label = ctk.CTkLabel(master=app, text="v2.0.0")
+setup_server_button = ctk.CTkButton(master=app, height=80, text="Setup Server", command=server_setup_wizard)
+setup_server_button.place(relx=0.2, rely=0.65, anchor=tk.CENTER)
+
+version_label = ctk.CTkLabel(master=app, text="v2.1.0")
 version_label.place(relx=0.925, rely=0.95, anchor=tk.CENTER)
 
 # End
